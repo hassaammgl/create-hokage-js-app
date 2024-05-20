@@ -78,7 +78,6 @@ const Start = async () => {
     console.log(chalk.greenBright(`Initializing project ${name}!`));
     await createFolders({ name, description, author, module });
     console.log(chalk.greenBright(`Creating folders for project ${name}!`));
-    // console.clear();
     spinner.start();
     console.log(chalk.greenBright(`Initializing project ${name}!`));
     spinner.success({ text: `Project ${name} created successfully!` });

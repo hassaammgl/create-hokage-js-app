@@ -36,15 +36,6 @@ const createFile = async (path, data) => {
         return false;
     }
 }
-// const createFile2 = async (path, data) => {
-//     try {
-//         await fs.promises.writeFile(path, data);
-//         return true;
-//     } catch (err) {
-//         console.error(chalk.redBright(`Error while creating file: ${err}`));
-//         return false;
-//     }
-// }
 
 export const createFolders = async (data) => {
     const dirname = process.cwd().split('/').reverse()[0].toLowerCase().replace(/ /g, '-');
@@ -67,29 +58,34 @@ const initializingApi = async (path, data) => {
     spinner.start();
     console.log(chalk.yellowBright.bold("initializing api..."));
     if (data.module === "commonjs") {
-        copyFolder("./temps/commonjs", path, async (copiedFile) => {
-            console.log(`[Created File] file: ${copiedFile}`);
-            if (`${path}/package.json`) {
-                await createFile(`${path}/package.json`, pjsonTemp(data));
+        await exec(`git clone https://github.com/hassaammgl/commonjs-server-create-my-mern-app.git -o server`, (error, stdout, stderr) => {
+            if (error) {
+                console.log(`error: ${error.message}`);
+                return;
+            }
+            if (stderr) {
+                console.log(`stderr: ${stderr}`);
+                return;
+            }
+            else {
+                console.log(`${stdout}`);
             }
         })
-            .then(() => {
-                console.log('Folder copied successfully!');
-            })
-            .catch((err) => {
-                console.error('Error copying folder:', err);
-            });
     }
     else {
-        copyFolder("./temps/ESM", path, (copiedFile) => {
-            console.log(`[Created File] file: ${copiedFile}`);
+        await exec(`git clone https://github.com/hassaammgl/ESM-server-create-my-mern-app.git -o server `, (error, stdout, stderr) => {
+            if (error) {
+                console.log(`error: ${error.message}`);
+                return;
+            }
+            if (stderr) {
+                console.log(`stderr: ${stderr}`);
+                return;
+            }
+            else {
+                console.log(`${stdout}`);
+            }
         })
-            .then(() => {
-                console.log('Folder copied successfully!');
-            })
-            .catch((err) => {
-                console.error('Error copying folder:', err);
-            });
     }
 
     spinner.success({ text: "Created Api Successfully..." });
@@ -118,20 +114,24 @@ const initializingClient = async (path) => {
     spinner.start();
     console.log(chalk.yellowBright.bold("initializing Client..."));
 
-    await copyFolder("./temps/client", path, async (copiedFile) => {
-        console.log(`[Created File] file: ${copiedFile}`);
-
+    await exec(`git clone https://github.com/hassaammgl/client-side-create-my-mern-app.git -o client `, (error, stdout, stderr) => {
+        if (error) {
+            console.log(`error: ${error.message}`);
+            return;
+        }
+        if (stderr) {
+            console.log(`stderr: ${stderr}`);
+            return;
+        }
+        else {
+            console.log(`${stdout}`);
+        }
     })
-        .then(() => {
-            console.log('Folder copied successfully!');
-        })
-        .catch((err) => {
-            console.error('Error copying folder:', err);
-        });
 
-        spinner.start();
-        console.log(chalk.yellowBright.bold("Installing packages...."))
-        await exec(`cd ${path} && npm i axios react-router-dom react-hot-toast`, (error, stdout, stderr) => {
+
+    spinner.start();
+    console.log(chalk.yellowBright.bold("Installing packages...."))
+    await exec(`cd ${path} && npm i axios react-router-dom react-hot-toast`, (error, stdout, stderr) => {
         if (error) {
             console.log(`error: ${error.message}`);
             return;
@@ -143,7 +143,7 @@ const initializingClient = async (path) => {
         else {
             console.log(`${stdout}`);
             spinner.success({ text: "Installing Packages Successfully..." })
-            
+
         }
     })
     spinner.start();
@@ -160,10 +160,10 @@ const initializingClient = async (path) => {
         else {
             console.log(`${stdout}`);
             spinner.success({ text: "Updating Packages Successfully..." })
-            
+
         }
     })
-   
+
 }
 
 async function copyFolder(source, destination, onProgress) {
