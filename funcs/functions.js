@@ -1,6 +1,5 @@
 import fs from 'fs';
 import { exec } from 'child_process';
-import path from 'path';
 import chalk from 'chalk';
 import { createSpinner } from 'nanospinner';
 import { logs } from './utils.js';
@@ -29,11 +28,15 @@ export const initProject = async (data) => {
     await initializingApi(dirname, data);
     await initializingClient(dirname, data);
     spinner.success({ text: `Project ${data.name} created successfully!` });
+    logs.info("Start your project with: cd " + dirname);
+    logs.info("run your Server with: cd /server && npm run dev");
+    logs.info("run your Client with: cd /client && npm run dev");
+    console.log(chalk.italic.greenBright.bgBlue("Happy Hacking!"));
 }
 
 const initializingApi = async (path, data) => {
     spinner.start();
-    logs.info("initializing api...");
+    logs.info("initializing Api...");
     if (data.module === "commonjs") {
         logs.info("initializing commonjs api...")
         await Runner(`cd ${path} && git clone https://github.com/hassaammgl/commonjs-server-create-my-mern-app.git server && cd server && rm -r .git && npm i cors express mongoose dotenv && npm update cors express mongoose dotenv -S`)

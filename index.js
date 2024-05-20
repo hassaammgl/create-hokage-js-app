@@ -73,7 +73,7 @@ const Start = async () => {
     console.log(`Creating project ${name}...`);
 
     await initProject({ name, description, author, module });
-   
+
 }
 
 await Start();
