@@ -1,15 +1,14 @@
 #!/usr/bin/env node
 
-import chalk from "chalk";
-import chalkAnimation from "chalk-animation";
 import gradient from "gradient-string";
 import inquirer from "inquirer";
 import figlet from "figlet";
 import { createSpinner } from "nanospinner";
-import { createFolders } from './funcs/functions.js'
+import { initProject } from './funcs/functions.js'
 
+const spinner = createSpinner();
 
-await figlet("create-my-mern-app", function (err, data) {
+await figlet("c-m-m-a", function (err, data) {
     if (err) {
         console.log("Something went wrong...");
         console.dir(err);
@@ -27,15 +26,14 @@ const Start = async () => {
             name: "name",
             message: "What is the name of the project?",
             validate: function (value) {
-                const validationRegex = /^[a-zA-Z\s]+$/;
-                if (value.trim() === ".") {
+                if (value === ".") {
                     const dirname = process.cwd().split('/').reverse()[0].toLowerCase().replace(/ /g, '-');
                     console.log(dirname);
                     return dirname;
-                } else if (validationRegex.test(value)) {
-                    return true;
+                } else if (value === "") {
+                    return false;
                 } else {
-                    return 'Please enter a valid project name. Spaces are not allowed, use "-" instead';
+                    return true;
                 }
             },
             default: () => {
@@ -73,15 +71,9 @@ const Start = async () => {
     ]);
 
     console.log(`Creating project ${name}...`);
-    const spinner = createSpinner();
-    spinner.start();
-    console.log(chalk.greenBright(`Initializing project ${name}!`));
-    await createFolders({ name, description, author, module });
-    console.log(chalk.greenBright(`Creating folders for project ${name}!`));
-    spinner.start();
-    console.log(chalk.greenBright(`Initializing project ${name}!`));
-    spinner.success({ text: `Project ${name} created successfully!` });
 
+    await initProject({ name, description, author, module });
+   
 }
 
 await Start();
