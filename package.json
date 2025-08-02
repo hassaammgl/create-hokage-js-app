@@ -1,22 +1,33 @@
 {
-  "name": "create-my-mern-app",
-  "version": "2.3.1",
-  "main": "index.js",
-  "type": "module",
-  "scripts": {
-    "dev": "node --watch index.js"
+  "name": "create-hokage-js-app",
+  "version": "1.0.0",
+  "description": "best cli tool to create mern stack template",
+  "keywords": [
+    "hokage",
+    "hokage-js",
+    "mern-stack"
+  ],
+  "homepage": "https://github.com/hassaammgl/create-hokage-js-app#readme",
+  "bugs": {
+    "url": "https://github.com/hassaammgl/create-hokage-js-app/issues"
   },
-  "keywords": [],
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hassaammgl/create-hokage-js-app.git"
+  },
   "license": "ISC",
-  "bin": "./index.js",
-  "description": "",
+  "author": "hassaammgl",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node --watch ./index.js"
+  },
   "dependencies": {
-    "chalk": "^5.3.0",
+    "@inquirer/prompts": "^7.8.0",
+    "chalk": "^5.4.1",
     "chalk-animation": "^2.0.3",
-    "figlet": "^1.7.0",
-    "gradient-string": "^2.0.2",
-    "inquirer": "^9.2.20",
-    "nanospinner": "^1.1.0"
+    "figlet": "^1.8.2",
+    "gradient-string": "^3.0.0",
+    "nanospinner": "^1.2.2"
   }
 }
