@@ -1,3 +1,5 @@
+// init.js
+
 import { createFolder } from "./utils/index.js"
 import { createSpinner } from 'nanospinner'
 import { success, error } from "./utils/chalk.js";

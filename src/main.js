@@ -1,3 +1,5 @@
+// main.js
+
 import init from "./init.js";
 import { input, select } from '@inquirer/prompts';
 
