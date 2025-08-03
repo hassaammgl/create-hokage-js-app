@@ -1,5 +1,4 @@
 // chalk
-
 import chalk from "chalk";
 
 export const success = (msg) => console.log(chalk.bgBlack(chalk.greenBright(msg)))
