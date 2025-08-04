@@ -2,11 +2,6 @@
 import path from 'path';
 import fs from 'fs-extra'
 
-/**
- * Copies all files and folders from one parent folder to a destination
- * @param {string} sourcePath - The folder to copy from
- * @param {string} destPath - The folder to copy into
- */
 
 export async function copyAllFromFolder(sourcePath, destPath) {
   try {
