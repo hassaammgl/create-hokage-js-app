@@ -4,9 +4,11 @@ import cors from "cors"
 import morgan from "morgan";
 import { errorHandler } from "./middlewares/error.middleware.js"
 import authRoutes from "./routes/auth.routes.js";
+import limiter from "./utils/rateLimit.js";
 
 const app = express();
 
+app.use(limiter);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())

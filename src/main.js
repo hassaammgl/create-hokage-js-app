@@ -38,7 +38,6 @@ export default async function main() {
             targetPath = '.';
         }
     } else {
-        // Use the provided path (last argument)
         targetPath = args.pop();
     }
 
