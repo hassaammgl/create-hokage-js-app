@@ -2,6 +2,7 @@
 
 import { select } from '@inquirer/prompts';
 import { copyAllFromFolder } from './utils/index.js';
+import { installDeps, depsPerProject } from "./utils/dependency.js"
 
 export async function creatingProject(temp, targetPath) {
   switch (temp) {
@@ -9,18 +10,39 @@ export async function creatingProject(temp, targetPath) {
       const projectType = await selectTemplateProject();
       console.log(`🛠️ Selected template: ${projectType}`);
 
+      let templatePath = '';
       if (projectType === '1') {
-        await copyAllFromFolder('templates/normalcss/js-template', targetPath);
+        templatePath = 'templates/normalcss/js-template';
+      } else if (projectType === '2') {
+        templatePath = 'templates/normalcss/ts-template';
+      } else if (projectType === '3') {
+        templatePath = 'templates/normalcss/js-frontend-ts-backend';
+      } else if (projectType === '4') {
+        templatePath = 'templates/normalcss/ts-frontend-js-backend';
       }
-      if (projectType === '2') {
-        await copyAllFromFolder('templates/normalcss/ts-template', targetPath);
+
+      await copyAllFromFolder(templatePath, targetPath);
+
+      const deps = depsPerProject[temp]?.[projectType];
+      if (deps) {
+        const clientPath = path.join(targetPath, 'client');
+        const apiPath = path.join(targetPath, 'api');
+
+        if (deps.client.main.length || deps.client.dev.length) {
+          console.log(`📦 Installing client dependencies...`);
+          await installDeps(deps.client.main, { dev: false });
+          await installDeps(deps.client.dev, { dev: true });
+        }
+
+        if (deps.api.main.length || deps.api.dev.length) {
+          console.log(`📦 Installing API dependencies...`);
+          await installDeps(deps.api.main, { dev: false });
+          await installDeps(deps.api.dev, { dev: true });
+        }
+      } else {
+        console.log("⚠️ No dependencies found for this template.");
       }
-      if (projectType === '3') {
-        await copyAllFromFolder('templates/normalcss/js-frontend-ts-backend', targetPath);
-      }
-      if (projectType === '4') {
-        await copyAllFromFolder('templates/normalcss/ts-frontend-js-backend', targetPath);
-      }
+
       break;
 
     default:
@@ -56,5 +78,5 @@ export async function selectTemplateProject() {
     ],
   });
 
-  return setupOption; 
+  return setupOption;
 }

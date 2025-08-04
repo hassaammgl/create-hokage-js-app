@@ -1,43 +1,3 @@
-// // init.js
-// import { createFolder } from "./utils/index.js"
-// import { createSpinner } from 'nanospinner'
-// import { success, error } from "./utils/chalk.js";
-// import { selectTemplateStyle } from "./selectTemplate.js"
-// import { creatingProject } from "./creatingProject.js";
-
-// export default async function init(inputPath) {
-//     const targetPath = inputPath === '.' ? process.cwd() : inputPath;
-//     console.log(targetPath);
-
-//     if (inputPath !== '.') {
-//         try {
-//             const spinner = createSpinner('creating directories ...').start()
-//             await createFolder(targetPath)
-//             success(`\n Created main directory: ${targetPath}`);
-//             try {
-//                 spinner.success()
-//                 const temp = await selectTemplateStyle()
-//                 await creatingProject(temp, targetPath)
-//             } catch (err) {
-//                 console.error(`Error creating subdirectories: ${err}`);
-//             }
-//         } catch (err) {
-//             error(`Error creating main directory: ${err}`);
-//             return;
-//         }
-//     } else {
-//         const spinner = createSpinner('creating directories ...').start()
-//         try {
-//             spinner.success()
-//           const temp = await selectTemplateStyle()
-//                 await creatingProject(temp, targetPath)
-//             // success(`\n Created subdirectories: ${folder1} and ${folder2} in ${targetPath}`);
-//         } catch (err) {
-//             error(`Error creating subdirectories: ${err}`);
-//         }
-//     }
-// }
-
 import { createFolder } from "./utils/index.js";
 import { createSpinner } from "nanospinner";
 import { success, error, info } from "./utils/chalk.js";
@@ -78,11 +38,3 @@ export default async function init(inputPath) {
     error(err.message);
   }
 }
-
-// import { execa } from 'execa';
-
-// const shouldInitGit = await confirm({ message: "📦 Initialize a Git repository?", default: true });
-// if (shouldInitGit) {
-//   await execa("git", ["init"], { cwd: targetPath });
-//   success("Initialized empty Git repo");
-// }

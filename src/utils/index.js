@@ -2,7 +2,6 @@
 import path from 'path';
 import fs from 'fs-extra'
 
-
 export async function copyAllFromFolder(sourcePath, destPath) {
   try {
     const resolvedSource = path.resolve(sourcePath)
