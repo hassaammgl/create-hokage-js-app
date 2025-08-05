@@ -1,10 +1,43 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
-import './App.scss';
+import './App.css';
+
+type BackendResponse = {
+  success: boolean;
+  message?: string;
+};
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [conn, setConn] = useState<BackendResponse | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [count, setCount] = useState<number>(0);
+
+  useEffect(() => {
+    const connectBackend = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch("http://localhost:5000");
+
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+
+        const data: BackendResponse = await res.json();
+        setConn(data);
+        setError(null);
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
+        console.error("Backend connection failed:", errorMessage);
+        setError(errorMessage);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    connectBackend();
+  }, []);
 
   return (
     <div className="glass-container">
@@ -25,8 +58,23 @@ function App() {
           </a>
         </div>
 
-        <h1 className="gradient-heading">Vite + React + TS</h1>
+        <h1 className="gradient-heading">Vite + React</h1>
         <p className="subtitle">Modern frontend experience</p>
+
+        {loading ? (
+          <div className="connection-status loading">
+            <div className="spinner"></div>
+            <span>Connecting to backend...</span>
+          </div>
+        ) : error ? (
+          <div className="connection-status error">
+            <span>Connection failed: {error}</span>
+          </div>
+        ) : conn?.success ? (
+          <div className="connection-status success">
+            <span>Backend connected successfully!</span>
+          </div>
+        ) : null}
       </div>
 
       <div className="glass-card content-card">

@@ -3,7 +3,6 @@ import type { Request, Response, NextFunction } from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import morgan from "morgan";
-import limiter from "./utils/rateLimit";
 
 import { errorHandler } from "./middlewares/error.middleware";
 import authRoutes from "./routes/auth.routes";
@@ -11,7 +10,6 @@ import authRoutes from "./routes/auth.routes";
 const app = express();
 
 // Middleware
-app.use(limiter);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());

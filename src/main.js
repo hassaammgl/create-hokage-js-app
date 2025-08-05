@@ -1,7 +1,7 @@
 // main.js
 
 import init from "./init.js";
-import { input, select, confirm } from '@inquirer/prompts';
+import { input, select } from '@inquirer/prompts';
 import { info } from './utils/chalk.js';
 
 function showBanner() {

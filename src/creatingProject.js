@@ -1,8 +1,9 @@
 // createProject.js
-
 import { select } from '@inquirer/prompts';
 import { copyAllFromFolder } from './utils/index.js';
-import { installDeps, depsPerProject } from "./utils/dependency.js"
+import { runCommand } from "./utils/dependency.js"
+import path from 'path'
+import { createSpinner } from "nanospinner";
 
 export async function creatingProject(temp, targetPath) {
   switch (temp) {
@@ -11,38 +12,33 @@ export async function creatingProject(temp, targetPath) {
       console.log(`🛠️ Selected template: ${projectType}`);
 
       let templatePath = '';
+      let clientPackages = ""
+      let apiPackages = ""
       if (projectType === '1') {
         templatePath = 'templates/normalcss/js-template';
+        clientPackages = `npm i react react-dom && npm i -D @eslint/js @types/react @types/react-dom @vitejs/plugin-react-swc eslint eslint-plugin-react-hooks eslint-plugin-react-refresh globals vite`
+        apiPackages = `npm install argon2 colors cookie-parser cors dotenv express express-async-handler joi jsonwebtoken mongoose morgan`
       } else if (projectType === '2') {
         templatePath = 'templates/normalcss/ts-template';
+        clientPackages = `npm install react react-dom && npm install --save-dev @eslint/js @types/react @types/react-dom @vitejs/plugin-react eslint eslint-plugin-react-hooks eslint-plugin-react-refresh globals typescript typescript-eslint vite`
+        apiPackages = `npm install argon2 colors cookie-parser cors dotenv express express-async-handler joi jsonwebtoken mongoose morgan && npm install --save-dev @types/argon2 @types/cookie-parser @types/cors @types/express @types/jsonwebtoken @types/morgan @types/node ts-node-dev tsx typescript`
       } else if (projectType === '3') {
         templatePath = 'templates/normalcss/js-frontend-ts-backend';
+        clientPackages = `npm i react react-dom && npm i -D @eslint/js @types/react @types/react-dom @vitejs/plugin-react-swc eslint eslint-plugin-react-hooks eslint-plugin-react-refresh globals vite`
+        apiPackages = `npm install argon2 colors cookie-parser cors dotenv express express-async-handler joi jsonwebtoken mongoose morgan && npm install --save-dev @types/argon2 @types/cookie-parser @types/cors @types/express @types/jsonwebtoken @types/morgan @types/node ts-node-dev tsx typescript`
       } else if (projectType === '4') {
         templatePath = 'templates/normalcss/ts-frontend-js-backend';
+        clientPackages = `npm install react react-dom && npm install --save-dev @eslint/js @types/react @types/react-dom @vitejs/plugin-react eslint eslint-plugin-react-hooks eslint-plugin-react-refresh globals typescript typescript-eslint vite`
+        apiPackages = `npm install argon2 colors cookie-parser cors dotenv express express-async-handler joi jsonwebtoken mongoose morgan`
       }
-
       await copyAllFromFolder(templatePath, targetPath);
-
-      const deps = depsPerProject[temp]?.[projectType];
-      if (deps) {
-        const clientPath = path.join(targetPath, 'client');
-        const apiPath = path.join(targetPath, 'api');
-
-        if (deps.client.main.length || deps.client.dev.length) {
-          console.log(`📦 Installing client dependencies...`);
-          await installDeps(deps.client.main, { dev: false });
-          await installDeps(deps.client.dev, { dev: true });
-        }
-
-        if (deps.api.main.length || deps.api.dev.length) {
-          console.log(`📦 Installing API dependencies...`);
-          await installDeps(deps.api.main, { dev: false });
-          await installDeps(deps.api.dev, { dev: true });
-        }
-      } else {
-        console.log("⚠️ No dependencies found for this template.");
-      }
-
+      const client = path.join(targetPath, "/client")
+      const api = path.join(targetPath, "/api")
+      console.log(client, api);
+      const spinner = createSpinner("⚙️ Installing dependencies...").start();
+      await runCommand(clientPackages, client)
+      await runCommand(apiPackages, api)
+      spinner.stop()
       break;
 
     default:
