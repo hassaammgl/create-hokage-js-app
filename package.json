@@ -19,6 +19,9 @@
   "author": "hassaammgl",
   "type": "module",
   "main": "index.js",
+  "bin": {
+    "create-hokage-js-app": "./index.js"
+  },
   "scripts": {
     "dev": "node --watch ./index.js"
   },
