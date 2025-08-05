@@ -1,28 +1,30 @@
-// utils/indexjs
 import path from 'path';
-import fs from 'fs-extra'
+import fs from 'fs-extra';
 
 export async function copyAllFromFolder(sourcePath, destPath) {
   try {
-    const resolvedSource = path.resolve(sourcePath)
-    const resolvedDest = path.resolve(destPath)
+    const projectRoot = process.cwd();
+    const resolvedSource = path.join(projectRoot, sourcePath);
+    const resolvedDest = path.join(projectRoot, destPath);
 
-    const exists = await fs.pathExists(resolvedSource)
-    if (!exists) {
-      throw new Error(`Source folder "${resolvedSource}" does not exist.`)
+    if (!(await fs.pathExists(resolvedSource))) {
+      throw new Error(`Source folder "${sourcePath}" not found in project.`);
     }
+
+    await fs.ensureDir(resolvedDest);
 
     await fs.copy(resolvedSource, resolvedDest, {
       overwrite: true,
       errorOnExist: false,
-    })
+      recursive: true,
+    });
 
-    console.log(`📁 All files & folders copied from "${resolvedSource}" to "${resolvedDest}"`)
+    console.log(`✅ Copied ${sourcePath} → ${destPath}`);
   } catch (err) {
-    console.error(`❌ Error copying folder: ${err.message}`)
+    console.error(`❌ Failed to copy: ${err.message}`);
+    throw err;
   }
 }
-
 
 export function createFolder(folderPath, recursive = true) {
   return new Promise((resolve, reject) => {
@@ -37,5 +39,3 @@ export function createFolder(folderPath, recursive = true) {
     });
   });
 }
-
-

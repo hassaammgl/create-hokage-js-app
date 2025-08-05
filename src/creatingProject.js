@@ -18,15 +18,18 @@ export async function creatingProject(temp, targetPath) {
         templatePath = 'templates/normalcss/js-template';
         clientPackages = `npm i react react-dom && npm i -D @eslint/js @types/react @types/react-dom @vitejs/plugin-react-swc eslint eslint-plugin-react-hooks eslint-plugin-react-refresh globals vite`
         apiPackages = `npm install argon2 colors cookie-parser cors dotenv express express-async-handler joi jsonwebtoken mongoose morgan`
-      } else if (projectType === '2') {
+      }
+      else if (projectType === '2') {
         templatePath = 'templates/normalcss/ts-template';
         clientPackages = `npm install react react-dom && npm install --save-dev @eslint/js @types/react @types/react-dom @vitejs/plugin-react eslint eslint-plugin-react-hooks eslint-plugin-react-refresh globals typescript typescript-eslint vite`
         apiPackages = `npm install argon2 colors cookie-parser cors dotenv express express-async-handler joi jsonwebtoken mongoose morgan && npm install --save-dev @types/argon2 @types/cookie-parser @types/cors @types/express @types/jsonwebtoken @types/morgan @types/node ts-node-dev tsx typescript`
-      } else if (projectType === '3') {
+      }
+      else if (projectType === '3') {
         templatePath = 'templates/normalcss/js-frontend-ts-backend';
         clientPackages = `npm i react react-dom && npm i -D @eslint/js @types/react @types/react-dom @vitejs/plugin-react-swc eslint eslint-plugin-react-hooks eslint-plugin-react-refresh globals vite`
         apiPackages = `npm install argon2 colors cookie-parser cors dotenv express express-async-handler joi jsonwebtoken mongoose morgan && npm install --save-dev @types/argon2 @types/cookie-parser @types/cors @types/express @types/jsonwebtoken @types/morgan @types/node ts-node-dev tsx typescript`
-      } else if (projectType === '4') {
+      }
+      else if (projectType === '4') {
         templatePath = 'templates/normalcss/ts-frontend-js-backend';
         clientPackages = `npm install react react-dom && npm install --save-dev @eslint/js @types/react @types/react-dom @vitejs/plugin-react eslint eslint-plugin-react-hooks eslint-plugin-react-refresh globals typescript typescript-eslint vite`
         apiPackages = `npm install argon2 colors cookie-parser cors dotenv express express-async-handler joi jsonwebtoken mongoose morgan`

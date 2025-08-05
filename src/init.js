@@ -1,40 +1,47 @@
-import { createFolder } from "./utils/index.js";
+import path from "path";
+import fs from "fs-extra";
+import { confirm } from "@inquirer/prompts";
 import { createSpinner } from "nanospinner";
+
+import { createFolder } from "./utils/index.js";
 import { success, error, info } from "./utils/chalk.js";
 import { selectTemplateStyle } from "./selectTemplate.js";
 import { creatingProject } from "./creatingProject.js";
-import { confirm } from "@inquirer/prompts";
-import fs from "fs-extra";
-import path from "path";
 
 export default async function init(inputPath) {
   const targetPath = path.resolve(inputPath === "." ? process.cwd() : inputPath);
 
-  const exists = await fs.pathExists(targetPath);
-  if (exists && inputPath !== ".") {
-    const overwrite = await confirm({
-      message: "⚠️ Target folder already exists. Overwrite contents?",
-      default: false,
-    });
-
-    if (!overwrite) {
-      info("❌ Project setup cancelled by user.");
-      process.exit(0);
-    }
-  }
-
-  const spinner = createSpinner("⚙️ Creating directories...").start();
-
   try {
+    const exists = await fs.pathExists(targetPath);
+
+    if (exists && inputPath !== ".") {
+      const overwrite = await confirm({
+        message: "⚠️ Target folder already exists. Overwrite contents?",
+        default: false,
+      });
+
+      if (!overwrite) {
+        info("❌ Project setup cancelled.");
+        return;
+      }
+
+      await fs.emptyDir(targetPath); // clean it out if overwrite = true
+    }
+
+    const spinner = createSpinner("⚙️ Creating directories...").start();
+
     await createFolder(targetPath);
-    spinner.success({ text: `✅ Created directory: ${targetPath}` });
+
+    spinner.success({ text: `📁 Directory ready at: ${targetPath}` });
 
     const template = await selectTemplateStyle();
+
     await creatingProject(template, targetPath);
 
-    success("\n🎉 Project setup complete!");
+    success("\n🎉 All set! Project created successfully.");
   } catch (err) {
-    spinner.error({ text: "❌ Failed to initialize project." });
-    error(err.message);
+    error("💥 Initialization failed:");
+    error(err.message || err);
+    process.exit(1);
   }
 }
