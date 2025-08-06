@@ -1,8 +1,4 @@
 
-import { exec } from 'child_process';
-import { promisify } from 'util';
-const execAsync = promisify(exec);
-
 /**
  * Executes a shell command in a given directory.
  *
@@ -12,23 +8,24 @@ const execAsync = promisify(exec);
  * @param {boolean} options.silent - Suppress stdout logs (default: false).
  * @returns {Promise<{ stdout: string, stderr: string }>}
  */
-export async function runCommand(command, cwd, options = {}) {
-  const { silent = false } = options;
 
+import { exec } from 'child_process';
+import util from 'util';
+
+const execPromise = util.promisify(exec);
+
+/**
+ * Runs a shell command in the specified directory.
+ * @param {string} cwd - The working directory.
+ * @param {string} command - The full command to run.
+ */
+export async function runCommand(cwd, command) {
   try {
-    const { stdout, stderr } = await execAsync(command, {
-      cwd,
-      shell: process.platform === 'win32' ? 'cmd.exe' : '/bin/bash',
-    });
+    const { stdout, stderr } = await execPromise(command, { cwd });
 
-    if (!silent && stdout) console.log(stdout.trim());
-    if (!silent && stderr) console.error(stderr.trim());
-
-    return { stdout, stderr };
-  } catch (error) {
-    console.error(`❌ Failed to run command: ${command}`);
-    console.error(`📍 Working dir: ${cwd}`);
-    console.error(`🐞 Error: ${error.message}`);
-    throw error;
+    if (stdout) process.stdout.write(stdout);
+    if (stderr) process.stderr.write(stderr);
+  } catch (err) {
+    throw new Error(`❌ Command failed: ${command}\n${err.stderr || err.message}`);
   }
 }

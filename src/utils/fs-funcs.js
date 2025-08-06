@@ -1,4 +1,61 @@
-import { mkdir } from 'fs/promises';
+// import fs, { mkdir } from 'fs/promises';
+// import path from 'path';
+
+// export class FolderManager {
+//   /**
+//    * Create a folder at the specified path.
+//    *
+//    * @param {string} folderPath - The folder path to create.
+//    * @param {boolean} recursive - Whether to create nested folders (default: true).
+//    * @returns {Promise<void>}
+//    */
+//   async create(folderPath, recursive = true) {
+//     try {
+//       await mkdir(folderPath, { recursive });
+//     } catch (err) {
+//       if (err.code !== 'EEXIST') {
+//         throw new Error(`❌ Failed to create folder "${folderPath}": ${err.message}`);
+//       }
+//       // Folder already exists, safe to ignore
+//     }
+//   }
+
+  
+//    /**
+//    * Copy all contents from one folder to another.
+//    *
+//    * @param {string} sourcePath - Path to the source folder (relative or absolute).
+//    * @param {string} destPath - Path to the destination folder (relative or absolute).
+//    * @returns {Promise<void>}
+//    */
+//   async copyFrom(sourcePath, destPath) {
+//     const resolvedSource = path.resolve(sourcePath);
+//     const resolvedDest = path.resolve(destPath);
+
+//     try {
+//       const exists = await fs.pathExists(resolvedSource);
+//       if (!exists) {
+//         throw new Error(`❌ Source folder not found: ${resolvedSource}`);
+//       }
+
+//       await fs.ensureDir(resolvedDest); 
+
+//       await fs.copy(resolvedSource, resolvedDest, {
+//         overwrite: true,
+//         errorOnExist: false,
+//         recursive: true,
+//       });
+
+//       console.log(`✅ Copied "${resolvedSource}" → "${resolvedDest}"`);
+//     } catch (err) {
+//       console.error(`❌ Failed to copy folders: ${err.message}`);
+//       throw err;
+//     }
+//   }
+// }
+
+import fs from 'fs-extra';
+import path from 'path';
 
 export class FolderManager {
   /**
@@ -10,12 +67,40 @@ export class FolderManager {
    */
   async create(folderPath, recursive = true) {
     try {
-      await mkdir(folderPath, { recursive });
+      await fs.ensureDir(folderPath); // Automatically recursive
     } catch (err) {
-      if (err.code !== 'EEXIST') {
-        throw new Error(`❌ Failed to create folder "${folderPath}": ${err.message}`);
+      throw new Error(`❌ Failed to create folder "${folderPath}": ${err.message}`);
+    }
+  }
+
+  /**
+   * Copy all contents from one folder to another.
+   *
+   * @param {string} sourcePath - Path to the source folder (relative or absolute).
+   * @param {string} destPath - Path to the destination folder (relative or absolute).
+   * @returns {Promise<void>}
+   */
+  async copyFrom(sourcePath, destPath) {
+    const resolvedSource = path.resolve(sourcePath);
+    const resolvedDest = path.resolve(destPath);
+
+    try {
+      const exists = await fs.pathExists(resolvedSource);
+      if (!exists) {
+        throw new Error(`❌ Source folder not found: ${resolvedSource}`);
       }
-      // Folder already exists, safe to ignore
+
+      await fs.ensureDir(resolvedDest);
+
+      await fs.copy(resolvedSource, resolvedDest, {
+        overwrite: true,
+        errorOnExist: false,
+      });
+
+      console.log(`✅ Copied "${resolvedSource}" → "${resolvedDest}"`);
+    } catch (err) {
+      console.error(`❌ Failed to copy folders: ${err.message}`);
+      throw err;
     }
   }
 }

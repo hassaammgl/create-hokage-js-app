@@ -37,8 +37,5 @@
     "fs-extra": "^11.3.0",
     "gradient-string": "^3.0.0",
     "nanospinner": "^1.2.2"
-  },
-  "engines": {
-    "node": ">=18.0.0"
   }
 }

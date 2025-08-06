@@ -2,7 +2,7 @@
 
 import { select } from '@inquirer/prompts';
 
-export async function selectTemplateStyle() {
+export async function selectStyleTemplates() {
   const setupOption = await select({
     message: '✨ Which styling setup do you want to use for your project?',
     choices: [
