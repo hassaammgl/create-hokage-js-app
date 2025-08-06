@@ -1,11 +1,15 @@
 {
   "name": "create-hokage-js-app",
   "version": "2.3.1",
-  "description": "best cli tool to create mern stack template",
+  "description": "🔥 Best CLI tool to create a MERN stack template. Quick, clean, and customizable.",
   "keywords": [
     "hokage",
     "hokage-js",
-    "mern-stack"
+    "create-hokage-js-app",
+    "mern-stack",
+    "cli",
+    "template",
+    "project-generator"
   ],
   "homepage": "https://github.com/hassaammgl/create-hokage-js-app#readme",
   "bugs": {
@@ -18,12 +22,12 @@
   "license": "ISC",
   "author": "hassaammgl",
   "type": "module",
-  "main": "index.js",
+  "main": "cli/index.js",
   "bin": {
-    "create-hokage-js-app": "./index.js"
+    "create-hokage-js-app": "./cli/index.js"
   },
   "scripts": {
-    "dev": "node --watch ./index.js"
+    "dev": "node --watch ./cli/index.js"
   },
   "dependencies": {
     "@inquirer/prompts": "^7.8.0",
