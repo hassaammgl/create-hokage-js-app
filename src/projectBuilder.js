@@ -66,11 +66,11 @@ export class ProjectBuilder {
     async #installDependencies() {
         const clientPath = path.join(this.targetPath, 'client');
         const apiPath = path.join(this.targetPath, 'api');
-
-        console.log(`📦 Installing client packages in: ${clientPath}`);
+        const spinner = createSpinner(`📦 Installing client packages in: ${clientPath}`).start()
         await runCommand(clientPath, this.clientPackages);
-
-        console.log(`📦 Installing API packages in: ${apiPath}`);
+        spinner.stop()
+        const spinner1 = createSpinner(`📦 Installing API packages in: ${apiPath}`).start()
         await runCommand(apiPath, this.apiPackages);
+        spinner1.stop()
     }
 }
