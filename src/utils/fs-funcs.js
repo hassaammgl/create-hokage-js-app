@@ -1,5 +1,6 @@
 import fs from 'fs-extra';
 import path from 'path';
+import degit from 'degit';
 
 export class FolderManager {
   /**
@@ -25,27 +26,22 @@ export class FolderManager {
    * @returns {Promise<void>}
    */
   async copyFrom(sourcePath, destPath) {
-    const resolvedSource = path.resolve(sourcePath);
     const resolvedDest = path.resolve(destPath);
 
     try {
-      const exists = await fs.pathExists(resolvedSource);
-      if (!exists) {
-        throw new Error(`❌ Source folder not found: ${resolvedSource}`);
-      }
-
       await fs.ensureDir(resolvedDest);
-
-      await fs.copy(resolvedSource, resolvedDest, {
-        overwrite: true,
-        errorOnExist: false,
+      const emitter = degit(sourcePath, {
+        force: true,
+        verbose: true
       });
 
-      console.log(`✅ Copied "${resolvedSource}" → "${resolvedDest}"`);
+      // Wait for the clone to complete
+      await emitter.clone(resolvedDest);
+      console.log(`✅ Copied "${sourcePath}" → "${resolvedDest}"`);
     } catch (err) {
       console.error(`❌ Failed to copy folders: ${err.message}`);
       throw err;
     }
-    
+
   }
 }

@@ -25,25 +25,25 @@ export class ProjectBuilder {
     #setCssPathsAndPackages(projectType) {
         switch (projectType) {
             case '1':
-                this.templatePath = 'templates/normalcss/js-template';
+                this.templatePath = 'hassaammgl/create-hokage-js-app/templates/normalcss/js-template#main';
                 this.clientPackages = `npm i react react-dom && npm i -D @eslint/js @types/react @types/react-dom @vitejs/plugin-react-swc eslint eslint-plugin-react-hooks eslint-plugin-react-refresh globals vite`;
                 this.apiPackages = `npm install argon2 colors cookie-parser cors dotenv express express-async-handler joi jsonwebtoken mongoose morgan`;
                 break;
 
             case '2':
-                this.templatePath = 'templates/normalcss/ts-template';
+                this.templatePath = 'hassaammgl/create-hokage-js-app/templates/normalcss/ts-template#main';
                 this.clientPackages = `npm install react react-dom && npm install --save-dev @eslint/js @types/react @types/react-dom @vitejs/plugin-react eslint eslint-plugin-react-hooks eslint-plugin-react-refresh globals typescript typescript-eslint vite`;
                 this.apiPackages = `npm install argon2 colors cookie-parser cors dotenv express express-async-handler joi jsonwebtoken mongoose morgan && npm install --save-dev @types/argon2 @types/cookie-parser @types/cors @types/express @types/jsonwebtoken @types/morgan @types/node ts-node-dev tsx typescript`;
                 break;
 
             case '3':
-                this.templatePath = 'templates/normalcss/js-frontend-ts-backend';
+                this.templatePath = 'hassaammgl/create-hokage-js-app/templates/normalcss/js-frontend-ts-backend#main';
                 this.clientPackages = `npm i react react-dom && npm i -D @eslint/js @types/react @types/react-dom @vitejs/plugin-react-swc eslint eslint-plugin-react-hooks eslint-plugin-react-refresh globals vite`;
                 this.apiPackages = `npm install argon2 colors cookie-parser cors dotenv express express-async-handler joi jsonwebtoken mongoose morgan && npm install --save-dev @types/argon2 @types/cookie-parser @types/cors @types/express @types/jsonwebtoken @types/morgan @types/node ts-node-dev tsx typescript`;
                 break;
 
             case '4':
-                this.templatePath = 'templates/normalcss/ts-frontend-js-backend';
+                this.templatePath = 'hassaammgl/create-hokage-js-app/templates/normalcss/ts-frontend-js-backend#main';
                 this.clientPackages = `npm install react react-dom && npm install --save-dev @eslint/js @types/react @types/react-dom @vitejs/plugin-react eslint eslint-plugin-react-hooks eslint-plugin-react-refresh globals typescript typescript-eslint vite`;
                 this.apiPackages = `npm install argon2 colors cookie-parser cors dotenv express express-async-handler joi jsonwebtoken mongoose morgan`;
                 break;
@@ -56,8 +56,6 @@ export class ProjectBuilder {
     async #copyTemplate() {
         const spinner = createSpinner(`Copying template...`).start();
         try {
-            // info("TemplatePath: " + this.templatePath)
-            // info("TargetPath: " + this.targetPath)
             await fm.copyFrom(this.templatePath, this.targetPath)
             spinner.success({ text: `✅ Template copied to "${this.templatePath}"` });
         } catch (error) {
@@ -69,7 +67,7 @@ export class ProjectBuilder {
     async installDependencies() {
         const clientPath = path.join(this.targetPath, 'client');
         const apiPath = path.join(this.targetPath, 'api');
-        const spinner = createSpinner(`📦 Installing client packages in: ${clientPath}`).start()
+        const spinner = createSpinner(`📦 Installing Client packages in: ${clientPath}`).start()
         await runCommand(clientPath, this.clientPackages);
         spinner.stop()
         const spinner1 = createSpinner(`📦 Installing API packages in: ${apiPath}`).start()
