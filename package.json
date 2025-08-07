@@ -30,6 +30,7 @@
     "create-hokage-js-app": "./cli/index.js"
   },
   "scripts": {
+    "start": "node ./cli/index.js",
     "dev": "node --watch ./cli/index.js"
   },
   "dependencies": {

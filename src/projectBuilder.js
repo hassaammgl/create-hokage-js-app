@@ -56,6 +56,8 @@ export class ProjectBuilder {
     async #copyTemplate() {
         const spinner = createSpinner(`Copying template...`).start();
         try {
+            console.log(this.templatePath, this.targetPath);
+            
             await fm.copyFrom(this.templatePath, this.targetPath)
             spinner.success({ text: `✅ Template copied to "${this.templatePath}"` });
         } catch (error) {
