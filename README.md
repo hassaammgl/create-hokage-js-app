@@ -6,7 +6,6 @@ The easiest way to get started with hokage.js is by using create-hokage-js-app. 
 
 
 ## Installation
-Interactive
 You can create a new project interactively by running:
 
 ```bash
