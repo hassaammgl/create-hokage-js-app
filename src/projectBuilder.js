@@ -2,6 +2,7 @@ import path from 'path';
 import { createSpinner } from 'nanospinner';
 import { FolderManager } from "./utils/fs-funcs.js"
 import { runCommand } from './utils/dependency.js';
+import { info } from "../src/utils/chalk.js"
 
 const fm = new FolderManager()
 
@@ -18,7 +19,7 @@ export class ProjectBuilder {
     async init() {
         this.#setCssPathsAndPackages(this.projectTemp)
         await this.#copyTemplate()
-        await this.#installDependencies()
+        await this.installDependencies()
     }
 
     #setCssPathsAndPackages(projectType) {
@@ -55,6 +56,8 @@ export class ProjectBuilder {
     async #copyTemplate() {
         const spinner = createSpinner(`Copying template...`).start();
         try {
+            // info("TemplatePath: " + this.templatePath)
+            // info("TargetPath: " + this.targetPath)
             await fm.copyFrom(this.templatePath, this.targetPath)
             spinner.success({ text: `✅ Template copied to "${this.templatePath}"` });
         } catch (error) {
@@ -63,7 +66,7 @@ export class ProjectBuilder {
         }
     }
 
-    async #installDependencies() {
+    async installDependencies() {
         const clientPath = path.join(this.targetPath, 'client');
         const apiPath = path.join(this.targetPath, 'api');
         const spinner = createSpinner(`📦 Installing client packages in: ${clientPath}`).start()
