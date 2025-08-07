@@ -11,7 +11,7 @@ export class FolderManager {
    */
   async create(folderPath, recursive = true) {
     try {
-      await fs.ensureDir(folderPath); // Automatically recursive
+      await fs.ensureDir(folderPath);
     } catch (err) {
       throw new Error(`❌ Failed to create folder "${folderPath}": ${err.message}`);
     }
@@ -27,8 +27,6 @@ export class FolderManager {
   async copyFrom(sourcePath, destPath) {
     const resolvedSource = path.resolve(sourcePath);
     const resolvedDest = path.resolve(destPath);
-    // console.log("resolved Source: ", resolvedSource);
-    // console.log("resolved Dest: ", resolvedDest);
 
     try {
       const exists = await fs.pathExists(resolvedSource);
@@ -48,23 +46,6 @@ export class FolderManager {
       console.error(`❌ Failed to copy folders: ${err.message}`);
       throw err;
     }
-    // try {
-    //   const exists = await fs.pathExists(sourcePath);
-    //   if (!exists) {
-    //     throw new Error(`❌ Source folder not found: ${sourcePath}`);
-    //   }
-
-    //   await fs.ensureDir(destPath);
-
-    //   await fs.copy(sourcePath, destPath, {
-    //     overwrite: true,
-    //     errorOnExist: false,
-    //   });
-
-    //   console.log(`✅ Copied "${sourcePath}" → "${destPath}"`);
-    // } catch (err) {
-    //   console.error(`❌ Failed to copy folders: ${err.message}`);
-    //   throw err;
-    // }
+    
   }
 }
