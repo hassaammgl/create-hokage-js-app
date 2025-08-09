@@ -3,6 +3,7 @@ import { createSpinner } from 'nanospinner';
 import { FolderManager } from "./utils/fs-funcs.js"
 import { runCommand } from './utils/dependency.js';
 import { info } from "../src/utils/chalk.js"
+import chalk from 'chalk';
 
 const fm = new FolderManager()
 
@@ -20,6 +21,7 @@ export class ProjectBuilder {
         this.#setCssPathsAndPackages(this.projectTemp)
         await this.#copyTemplate()
         await this.installDependencies()
+        this.#tellAboutEnvs()
     }
 
     #setCssPathsAndPackages(projectType) {
@@ -57,13 +59,46 @@ export class ProjectBuilder {
         const spinner = createSpinner(`Copying template...`).start();
         try {
             console.log(this.templatePath, this.targetPath);
-            
+
             await fm.copyFrom(this.templatePath, this.targetPath)
             spinner.success({ text: `✅ Template copied to "${this.templatePath}"` });
         } catch (error) {
             spinner.error({ text: `❌ Failed to copy template.` });
             throw error;
         }
+    }
+
+
+    async #tellAboutEnvs() {
+        const clientEnvPath = path.join(this.targetPath, "client", ".env");
+        const apiEnvPath = path.join(this.targetPath, "api", ".env");
+
+        console.log(chalk.green.bold("\n📦 Project created successfully!"));
+        console.log(chalk.cyan("🛠️  Before starting, please create environment files:"));
+
+        console.log(`\n➡ ${chalk.yellow("Client env:")} ${clientEnvPath}`);
+        console.log(`➡ ${chalk.yellow("API env:")} ${apiEnvPath}`);
+
+        const apiExample = `PORT=5000
+NODE_ENV=development
+MONGO_URI=
+JWT_SECRET=
+JWT_REFRESH_SECRET=
+FRONTEND_URL=http://localhost:5173
+`;
+
+        const clientExample = `VITE_API_URL=http://localhost:5000
+`;
+
+        console.log(chalk.magenta("\nExample API .env:"));
+        console.log(chalk.gray("-----------------"));
+        console.log(apiExample);
+
+        console.log(chalk.magenta("Example Client .env:"));
+        console.log(chalk.gray("--------------------"));
+        console.log(clientExample);
+
+        console.log(chalk.blue("\n🚀 Once done, you're ready to run your dev servers. Happy coding!"));
     }
 
     async installDependencies() {
