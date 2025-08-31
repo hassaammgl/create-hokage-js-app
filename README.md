@@ -1,231 +1,43 @@
-
 # create-hokage-js-app
 
-The easiest way to get started with hokage.js is by using create-hokage-js-app. This CLI tool enables you to quickly start building a new Mern application, with everything set up for you. You can create a new app using the Mern templates. To get started, use the following command:
+🔥 Best CLI tool to create a MERN stack template. Quick, clean, and customizable.
 
+## Usage
 
-
-## Installation
-You can create a new project interactively by running:
+To create a new project, run the following command:
 
 ```bash
-npx create-hokage-js-app@latest <my-app>
-```
-or
-```bash
-bunx create-hokage-js-app@latest <my-app>
+npx create-hokage-js-app
 ```
 
-## Demo
+You will be prompted to select a project template and a styling option.
 
-Javascript Full Template:
-```
-└── 📁js-temp
-    └── 📁api
-        └── 📁src
-            └── 📁config
-                ├── constants.js
-                ├── db.js
-                ├── validateEnv.js
-            └── 📁controllers
-                ├── auth.controller.js
-            └── 📁middlewares
-                ├── auth.middlewares.js
-                ├── error.middleware.js
-                ├── validation.middleware.js
-            └── 📁models
-                ├── user.model.js
-            └── 📁routes
-                ├── auth.routes.js
-            └── 📁services
-                ├── auth.service.js
-            └── 📁utils
-                ├── ApiResponse.js
-                ├── AppError.js
-                ├── Dto.js
-                ├── Jwt.js
-            └── 📁validations
-                ├── auth.validation.js
-            ├── app.js
-        ├── .env
-        ├── .gitignore
-        ├── index.js
-        ├── package.json
-    └── 📁client
-        └── 📁public
-            ├── vite.svg
-        └── 📁src
-            └── 📁assets
-                ├── react.svg
-            ├── App.css
-            ├── App.jsx
-            ├── root.jsx
-        ├── .gitignore
-        ├── eslint.config.js
-        ├── index.html
-        ├── package.json
-        ├── README.md
-        └── vite.config.js
-```
+## Templates
 
-Typescript Full Template:
-```
-└── 📁ts-temp
-    └── 📁client
-        └── 📁public
-            ├── vite.svg
-        └── 📁src
-            └── 📁assets
-                ├── react.svg
-            ├── App.css
-            ├── App.tsx
-            ├── root.tsx
-            ├── vite-env.d.ts
-        ├── .gitignore
-        ├── eslint.config.js
-        ├── index.html
-        ├── package.json
-        ├── tsconfig.app.json
-        ├── tsconfig.json
-        ├── tsconfig.node.json
-        ├── vite.config.ts
-    └── 📁api
-        └── 📁src
-            └── 📁config
-                ├── constants.ts
-                ├── db.ts
-                ├── validateEnv.ts
-            └── 📁controllers
-                ├── auth.controller.ts
-            └── 📁middlewares
-                ├── auth.middlewares.ts
-                ├── error.middleware.ts
-                ├── validation.middleware.ts
-            └── 📁models
-                ├── user.model.ts
-            └── 📁routes
-                ├── auth.routes.ts
-            └── 📁services
-                ├── auth.service.ts
-            └── 📁utils
-                ├── ApiResponse.ts
-                ├── AppError.ts
-                ├── Dto.ts
-                ├── Jwt.ts
-            └── 📁validations
-                ├── auth.validation.ts
-            ├── app.ts
-        ├── .env
-        ├── .gitignore
-        ├── index.ts
-        ├── package.json
-        └── tsconfig.json
-```
+The following project templates are available:
 
-Javascript Frontend Typescript Backend Full Template:
-```
-└── 📁js-fr-ts-ba
-    └── 📁api
-        └── 📁src
-            └── 📁config
-                ├── constants.ts
-                ├── db.ts
-                ├── validateEnv.ts
-            └── 📁controllers
-                ├── auth.controller.ts
-            └── 📁middlewares
-                ├── auth.middlewares.ts
-                ├── error.middleware.ts
-                ├── validation.middleware.ts
-            └── 📁models
-                ├── user.model.ts
-            └── 📁routes
-                ├── auth.routes.ts
-            └── 📁services
-                ├── auth.service.ts
-            └── 📁utils
-                ├── ApiResponse.ts
-                ├── AppError.ts
-                ├── Dto.ts
-                ├── Jwt.ts
-            └── 📁validations
-                ├── auth.validation.ts
-            ├── app.ts
-        ├── .env
-        ├── .gitignore
-        ├── index.ts
-        ├── package.json
-        ├── tsconfig.json
-    └── 📁client
-        └── 📁public
-            ├── vite.svg
-        └── 📁src
-            └── 📁assets
-                ├── react.svg
-            ├── App.css
-            ├── App.jsx
-            ├── root.jsx
-        ├── .gitignore
-        ├── eslint.config.js
-        ├── index.html
-        ├── package.json
-        ├── README.md
-        └── vite.config.js
-```
+*   **JavaScript Frontend + JavaScript Backend**
+*   **TypeScript Frontend + JavaScript Backend**
+*   **JavaScript Frontend + TypeScript Backend**
+*   **TypeScript Frontend + TypeScript Backend**
 
-Typescript Frontend Javascript Backend Full Template:
-```
-└── 📁ts-fr-js-ba
-    └── 📁api
-        └── 📁src
-            └── 📁config
-                ├── constants.js
-                ├── db.js
-                ├── validateEnv.js
-            └── 📁controllers
-                ├── auth.controller.js
-            └── 📁middlewares
-                ├── auth.middlewares.js
-                ├── error.middleware.js
-                ├── validation.middleware.js
-            └── 📁models
-                ├── user.model.js
-            └── 📁routes
-                ├── auth.routes.js
-            └── 📁services
-                ├── auth.service.js
-            └── 📁utils
-                ├── ApiResponse.js
-                ├── AppError.js
-                ├── Dto.js
-                ├── Jwt.js
-            └── 📁validations
-                ├── auth.validation.js
-            ├── app.js
-        ├── .env
-        ├── .gitignore
-        ├── index.js
-        ├── package.json
-    └── 📁client2-ts
-        └── 📁public
-            ├── vite.svg
-        └── 📁src
-            └── 📁assets
-                ├── react.svg
-            ├── App.css
-            ├── App.tsx
-            ├── root.tsx
-            ├── vite-env.d.ts
-        ├── .gitignore
-        ├── eslint.config.js
-        ├── index.html
-        ├── package.json
-        ├── tsconfig.app.json
-        ├── tsconfig.json
-        ├── tsconfig.node.json
-        └── vite.config.ts
-```
-## Authors
+The following styling options are available:
 
-- [hassaammgl](https://github.com/hassaammgl/create-hokage-js-app)
+*   **Normal CSS**
+*   **SCSS**
+*   **Tailwind CSS**
+*   **Shadcn UI**
 
+## Contributing
+
+Contributions are welcome! Please follow these steps to contribute:
+
+1.  Fork the repository.
+2.  Create a new branch: `git checkout -b my-new-feature`
+3.  Make your changes and commit them: `git commit -am 'Add some feature'`
+4.  Push to the branch: `git push origin my-new-feature`
+5.  Submit a pull request.
+
+## License
+
+This project is licensed under the ISC License.
