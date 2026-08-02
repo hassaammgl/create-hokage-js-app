@@ -1,9 +1,7 @@
-// selectTemplate.js
-
 import { select } from '@inquirer/prompts';
 
-export async function selectStyleTemplates() {
-  const setupOption = await select({
+export async function selectStyleTemplate() {
+  return select({
     message: '✨ Which styling setup do you want to use for your project?',
     choices: [
       {
@@ -22,12 +20,10 @@ export async function selectStyleTemplates() {
         description: 'Utility-first styling with Tailwind',
       },
       {
-        name: 'shadcn/ui (with Tailwind) (comming soon)',
+        name: 'shadcn/ui (with Tailwind)',
         value: 'shadcn-ui',
-        description: 'Tailwind + beautiful prebuilt components',
+        description: 'Tailwind + prebuilt accessible components',
       },
     ],
   });
-
-  return setupOption;
 }

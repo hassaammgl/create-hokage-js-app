@@ -26,7 +26,7 @@ The following styling options are available:
 *   **Normal CSS**
 *   **SCSS**
 *   **Tailwind CSS**
-*   **Shadcn UI**
+*   **shadcn/ui** (Tailwind + prebuilt components)
 
 ## Contributing
 

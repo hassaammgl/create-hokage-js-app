@@ -1,6 +1,6 @@
 const showBanner = () => {
-    console.clear();
-    console.log(`
+  console.clear();
+  console.log(`
  █████               █████                                          ███         
 ░░███               ░░███                                          ░░░          
  ░███████    ██████  ░███ █████  ██████    ███████  ██████         █████  █████ 
@@ -14,6 +14,6 @@ const showBanner = () => {
                                           ░░░░░░               ░░░░░░             
                         ⚡ CLI PROJECT INITIALIZER ⚡      
 `);
-}
+};
 
-export default showBanner
+export default showBanner;

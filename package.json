@@ -1,6 +1,6 @@
 {
   "name": "create-hokage-js-app",
-  "version": "5.2.1",
+  "version": "6.0.0",
   "description": "🔥 Best CLI tool to create a MERN stack template. Quick, clean, and customizable.",
   "keywords": [
     "hokage",
@@ -35,13 +35,10 @@
     "dev": "node --watch ./cli/index.js"
   },
   "dependencies": {
-    "@inquirer/prompts": "^7.8.0",
-    "chalk": "^5.4.1",
-    "chalk-animation": "^2.0.3",
-    "degit": "^2.8.4",
-    "figlet": "^1.8.2",
-    "fs-extra": "^11.3.0",
-    "gradient-string": "^3.0.0",
+    "@inquirer/prompts": "^8.5.2",
+    "chalk": "^6.0.0",
+    "degit": "^3.6.6",
+    "fs-extra": "^11.4.0",
     "nanospinner": "^1.2.2"
   }
 }

@@ -1,68 +1,78 @@
-// main.js
-
 import { input, select } from '@inquirer/prompts';
-import { info } from './utils/chalk.js';
+import { info } from './utils/logger.js';
 import showBanner from './utils/banner.js';
-import { FolderManager } from "./utils/fs-funcs.js"
-import { selectStyleTemplates } from "./prompts/selectStyleTemplate.js"
-import { selectProjectTemplates } from "./prompts/selectProjectTemplates.js"
+import { FolderManager } from './utils/folder-manager.js';
+import { selectStyleTemplate } from './prompts/selectStyleTemplate.js';
+import { selectProjectTemplate } from './prompts/selectProjectTemplates.js';
 import { ProjectBuilder } from './projectBuilder.js';
 
-const fileSystem = new FolderManager()
-
-class Main {
-  constructor(args) {
-    this.args = args || process.argv.slice(2);
+export default class Main {
+  /**
+   * @param {string[]} [args]
+   * @param {FolderManager} [folderManager]
+   */
+  constructor(args = process.argv.slice(2), folderManager = new FolderManager()) {
+    this.args = args;
+    this.folderManager = folderManager;
     this.targetPath = '';
-    this.projectTemp = ""
-    this.projectTempPath = ""
+    this.projectTemplateId = '';
+    this.styleId = '';
   }
 
-  async init() {
+  async run() {
     showBanner();
-    await this.resolveTargetPath();
-    this.printSummary();
-    fileSystem.create(this.targetPath)
-    this.projectTemp = await selectProjectTemplates()
-    this.projectStyle = await selectStyleTemplates()
-    info("Selected style: " + this.projectStyle)
-    info("Selected template: " + this.projectTemp)
-    const pB = new ProjectBuilder(this.projectStyle, this.projectTemp, this.targetPath)
-    pB.init()
+    await this.#resolveTargetPath();
+    this.#printTargetSummary();
+    await this.folderManager.ensureDirectory(this.targetPath);
 
+    this.projectTemplateId = await selectProjectTemplate();
+    this.styleId = await selectStyleTemplate();
+
+    info(`Selected style: ${this.styleId}`);
+    info(`Selected template: ${this.projectTemplateId}`);
+
+    const builder = new ProjectBuilder(
+      this.styleId,
+      this.projectTemplateId,
+      this.targetPath,
+      this.folderManager,
+    );
+    await builder.scaffold();
   }
 
-
-  async resolveTargetPath() {
+  async #resolveTargetPath() {
     if (this.args.length === 0) {
-      info('No path provided - starting interactive setup...\n');
-
-      const setupOption = await select({
-        message: '📁 Where do you want to initialize the project?',
-        choices: [
-          { name: 'Use current directory (.)', value: 'current' },
-          { name: 'Create new project directory', value: 'new' },
-        ],
-      });
-
-      if (setupOption === 'new') {
-        const projectName = await input({
-          message: '📝 Enter your project name:',
-          validate: (val) => val.trim() !== '' || 'Project name cannot be empty!',
-        });
-
-        this.targetPath = `./${projectName}`;
-      } else {
-        this.targetPath = '.';
-      }
-    } else {
-      this.targetPath = this.args.pop();
+      this.targetPath = await this.#promptForTargetPath();
+      return;
     }
+
+    this.targetPath = this.args.at(-1);
   }
 
-  printSummary() {
+  async #promptForTargetPath() {
+    info('No path provided - starting interactive setup...\n');
+
+    const setupOption = await select({
+      message: '📁 Where do you want to initialize the project?',
+      choices: [
+        { name: 'Use current directory (.)', value: 'current' },
+        { name: 'Create new project directory', value: 'new' },
+      ],
+    });
+
+    if (setupOption !== 'new') {
+      return '.';
+    }
+
+    const projectName = await input({
+      message: '📝 Enter your project name:',
+      validate: (value) => value.trim() !== '' || 'Project name cannot be empty!',
+    });
+
+    return `./${projectName}`;
+  }
+
+  #printTargetSummary() {
     console.log(`\n📂 Target Path: ${this.targetPath}`);
   }
 }
-
-export default Main;
